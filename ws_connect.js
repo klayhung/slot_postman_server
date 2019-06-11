@@ -13,10 +13,12 @@ postman.init();
 wss.on('connection', (ws) => {
     ws.id = ++connectionIDCounter;
     connections[ws.id] = ws;
+    postman.addClient(ws);
 
     /** 接收 Client 關閉連線訊息 */
     ws.on('close', () => {
         console.log(`ws id: ${ws.id} close connect`);
+        postman.deleteClient(ws.id);
         delete connections[ws.id];
     });
 
@@ -29,7 +31,7 @@ wss.on('connection', (ws) => {
         console.log(`ws id: ${ws.id}`);
         console.log(`server rcv data: ${data}`);
         const pkg = JSON.parse(data);
-        pkg.from = 'Client';
+        pkg.clientID = ws.id;
         postman.onMessage(JSON.stringify(pkg));
     });
 });
