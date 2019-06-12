@@ -28,21 +28,11 @@ module.exports = {
 
     onOpen(server) {
         this.sendServerRegisterPackage(server);
-        // this.serverCount++;
-        // if (this.serverCount === 2) {
-        //     const Login = {
-        //         type: 'Login',
-        //         from: 'Game',
-        //         to: 'User',
-        //         message: { userName: 'klayhung' },
-        //     };
-        //     server.send(JSON.stringify(Login));
-        // }
     },
 
     onMessage(data) {
         const pkg = JSON.parse(data);
-        console.log(`rec: ${JSON.stringify(pkg)}`);
+        console.log(`rec data: ${JSON.stringify(pkg)}`);
         // 註冊 Server 封包
         if (pkg.type === 'RegisterPackage') {
             pkg.message.pkgNames.forEach((item) => {

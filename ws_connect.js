@@ -29,7 +29,7 @@ wss.on('connection', (ws) => {
     /** 接收 Client 訊息 */
     ws.on('message', (data) => {
         console.log(`ws id: ${ws.id}`);
-        console.log(`server rcv data: ${data}`);
+        console.log(`rcv client data: ${data}`);
         const pkg = JSON.parse(data);
         pkg.clientID = ws.id;
         postman.onMessage(JSON.stringify(pkg));
