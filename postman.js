@@ -9,6 +9,9 @@ module.exports = {
     ],
     clientsMap: new Map(),
 
+    /**
+     * PostMan 初始
+     */
     init() {
         this.serversOrder.forEach((item, index) => {
             const server = new WebSocket(item.url);
@@ -26,10 +29,18 @@ module.exports = {
         });
     },
 
+    /**
+     * 接收 Server 連線回覆
+     * @param {Object} server WebSocket 連線物件
+     */
     onOpen(server) {
         this.sendServerRegisterPackage(server);
     },
 
+    /**
+     * 接收 Server 訊息回覆
+     * @param {JSON} data 封包
+     */
     onMessage(data) {
         const pkg = JSON.parse(data);
         console.log(`rec data: ${JSON.stringify(pkg)}`);
@@ -63,6 +74,10 @@ module.exports = {
         }
     },
 
+    /**
+     * 送出要註冊的封包
+     * @param {Object} server WebSocket 連線物件
+     */
     sendServerRegisterPackage(server) {
         const S2S_RegistetPackage = {
             type: 'RegisterPackage',
@@ -71,10 +86,18 @@ module.exports = {
         server.send(JSON.stringify(S2S_RegistetPackage));
     },
 
+    /**
+     * 新增 Client 連線
+     * @param {Object} ws WebSocket 連線物件
+     */
     addClient(ws) {
         this.clientsMap.set(ws.id, ws);
     },
 
+    /**
+     * 刪除 Client 連線
+     * @param {Object} ws WebSocket 連線物件
+     */
     deleteClient(wsID) {
         this.clientsMap.delete(wsID);
     },
